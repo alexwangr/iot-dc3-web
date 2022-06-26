@@ -57,5 +57,5 @@
 <script src="./scripts/index.js" lang="js"></script>
 
 <style lang="scss">
-    @import "~@/components/login/styles/style.scss";
+@import "~@/components/login/styles/style.scss";
 </style>

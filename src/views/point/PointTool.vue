@@ -54,75 +54,75 @@
 </template>
 
 <script>
-    export default {
-        name: "point-tool",
-        props: {
-            pre: {
-                type: Boolean,
-                default: () => {
-                    return false;
-                }
-            },
-            next: {
-                type: Boolean,
-                default: () => {
-                    return false;
-                }
-            },
-            page: {
-                type: Object,
-                default: () => {
-                    return {}
-                }
+export default {
+    name: "point-tool",
+    props: {
+        pre: {
+            type: Boolean,
+            default: () => {
+                return false;
             }
         },
-        data() {
-            return {
-                formData: {},
-                formRule: {
-                    port: [
-                        {type: 'number', message: '端口必须为数字值'}
-                    ]
-                }
+        next: {
+            type: Boolean,
+            default: () => {
+                return false;
             }
         },
-        methods: {
-            search() {
-                this.$refs['formData'].validate((valid) => {
-                    if (valid) {
-                        this.$emit('search', this.formData);
-                    }
-                });
-            },
-            reset() {
-                this.$refs['formData'].resetFields();
-                this.$emit('reset');
-            },
-            showAdd() {
-                this.$emit('showAdd');
-            },
-            refresh() {
-                this.$emit('refresh');
-            },
-            sort() {
-                this.$emit('sort');
-            },
-            sizeChange(size) {
-                this.$emit('size-change', size);
-            },
-            currentChange(current) {
-                this.$emit('current-change', current);
-            },
-            preHandle() {
-                this.$emit('pre-handle');
-            },
-            nextHandle() {
-                this.$emit('next-handle');
+        page: {
+            type: Object,
+            default: () => {
+                return {}
             }
         }
-    };
+    },
+    data() {
+        return {
+            formData: {},
+            formRule: {
+                port: [
+                    {type: 'number', message: '端口必须为数字值'}
+                ]
+            }
+        }
+    },
+    methods: {
+        search() {
+            this.$refs['formData'].validate((valid) => {
+                if (valid) {
+                    this.$emit('search', this.formData);
+                }
+            });
+        },
+        reset() {
+            this.$refs['formData'].resetFields();
+            this.$emit('reset');
+        },
+        showAdd() {
+            this.$emit('showAdd');
+        },
+        refresh() {
+            this.$emit('refresh');
+        },
+        sort() {
+            this.$emit('sort');
+        },
+        sizeChange(size) {
+            this.$emit('size-change', size);
+        },
+        currentChange(current) {
+            this.$emit('current-change', current);
+        },
+        preHandle() {
+            this.$emit('pre-handle');
+        },
+        nextHandle() {
+            this.$emit('next-handle');
+        }
+    }
+};
 </script>
 
 <style lang="scss">
-    @import "~@/components/card/styles/tool-card.scss";
+@import "~@/components/card/styles/tool-card.scss";
 </style>

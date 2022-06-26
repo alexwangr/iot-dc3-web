@@ -75,54 +75,54 @@
 </template>
 
 <script>
-    export default {
-        name: "gateway-tool",
-        props: {
-            page: {
-                type: Object,
-                default: () => {
-                    return {}
-                }
-            }
-        },
-        data() {
-            return {
-                formData: {},
-                formRule: {
-                    port: [
-                        {type: 'number', message: '端口必须为数字值'}
-                    ]
-                }
-            }
-        },
-        methods: {
-            search() {
-                this.$refs['formData'].validate((valid) => {
-                    if (valid) {
-                        this.$emit('search', this.formData);
-                    }
-                });
-            },
-            reset() {
-                this.$refs['formData'].resetFields();
-                this.$emit('reset');
-            },
-            refresh() {
-                this.$emit('refresh');
-            },
-            sort() {
-                this.$emit('sort');
-            },
-            sizeChange(size) {
-                this.$emit('size-change', size);
-            },
-            currentChange(current) {
-                this.$emit('current-change', current);
+export default {
+    name: "gateway-tool",
+    props: {
+        page: {
+            type: Object,
+            default: () => {
+                return {}
             }
         }
-    };
+    },
+    data() {
+        return {
+            formData: {},
+            formRule: {
+                port: [
+                    {type: 'number', message: '端口必须为数字值'}
+                ]
+            }
+        }
+    },
+    methods: {
+        search() {
+            this.$refs['formData'].validate((valid) => {
+                if (valid) {
+                    this.$emit('search', this.formData);
+                }
+            });
+        },
+        reset() {
+            this.$refs['formData'].resetFields();
+            this.$emit('reset');
+        },
+        refresh() {
+            this.$emit('refresh');
+        },
+        sort() {
+            this.$emit('sort');
+        },
+        sizeChange(size) {
+            this.$emit('size-change', size);
+        },
+        currentChange(current) {
+            this.$emit('current-change', current);
+        }
+    }
+};
 </script>
 
 <style lang="scss">
-    @import "~@/components/card/styles/tool-card.scss";
+@import "~@/components/card/styles/tool-card.scss";
 </style>

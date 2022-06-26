@@ -1,4 +1,4 @@
-import {Message, Notification} from 'element-ui';
+import {ElMessage, ElNotification} from 'element-plus';
 
 let failNotify = true, failNotifyText = '';
 
@@ -10,7 +10,7 @@ let failNotify = true, failNotifyText = '';
  * @param message
  * @returns {boolean}
  */
-export const setCopyContent = (content, detail, message) => {
+export const setCopyContent = (content: any, detail: any, message: any) => {
     const input = document.createElement('input');
     input.setAttribute('id', 'copy-id-input');
     input.setAttribute('value', content);
@@ -26,10 +26,10 @@ export const setCopyContent = (content, detail, message) => {
                 tip = `已复制 ${content} 到剪切板！`;
             }
         }
-        Message.success({message: tip, center: true});
+        ElMessage.success({message: tip, center: true});
     }
 
-    document.body.removeChild(document.getElementById('copy-id-input'));
+    document.body.removeChild(document.getElementById('copy-id-input') as Node);
 };
 
 /**
@@ -38,8 +38,8 @@ export const setCopyContent = (content, detail, message) => {
  * @param data
  * @returns {string}
  */
-export const serialize = data => {
-    let list = [];
+export const serialize = (data: any) => {
+    const list: string[] = [];
     Object.keys(data).forEach(ele => {
         list.push(`${ele}=${data[ele]}`)
     });
@@ -52,9 +52,9 @@ export const serialize = data => {
  * @param obj
  * @returns {string|*}
  */
-export const getObjType = obj => {
-    let toString = Object.prototype.toString;
-    let map = {
+export const getObjType = (obj: any) => {
+    const toString = Object.prototype.toString;
+    const map: any = {
         '[object Boolean]': 'boolean',
         '[object Number]': 'number',
         '[object String]': 'string',
@@ -78,9 +78,9 @@ export const getObjType = obj => {
  * @param data
  * @returns {{}|*}
  */
-export const deepClone = data => {
-    let type = getObjType(data);
-    let obj;
+export const deepClone = (data: any) => {
+    const type = getObjType(data);
+    let obj: any;
     if (type === 'array') {
         obj = [];
     } else if (type === 'object') {
@@ -94,7 +94,7 @@ export const deepClone = data => {
             obj.push(deepClone(data[i]));
         }
     } else if (type === 'object') {
-        for (let key in data) {
+        for (const key in data) {
             obj[key] = deepClone(data[key]);
         }
     }
@@ -106,7 +106,7 @@ export const deepClone = data => {
  *
  * @param status
  */
-export const toggleGrayMode = (status) => {
+export const toggleGrayMode = (status: any) => {
     if (status) {
         document.body.className = document.body.className + ' grayMode';
     } else {
@@ -119,36 +119,9 @@ export const toggleGrayMode = (status) => {
  *
  * @param name
  */
-export const setTheme = (name) => {
+export const setTheme = (name: any) => {
     document.body.className = name;
 };
-
-/**
- * 加密处理
- *
- * @param params
- * @returns {any}
- */
-export const encryption = (params) => {
-    let {
-        data,
-        type,
-        param,
-        key
-    } = params;
-    let result = JSON.parse(JSON.stringify(data));
-    if (type === 'Base64') {
-        param.forEach(ele => {
-            result[ele] = btoa(result[ele]);
-        })
-    } else if (type === 'Aes') {
-        param.forEach(ele => {
-            result[ele] = window.CryptoJS.AES.encrypt(result[ele], key).toString();
-        })
-    }
-    return result;
-};
-
 
 /**
  * 递归寻找子类的父类
@@ -196,8 +169,8 @@ export const loadStyle = url => {
  */
 export const diff = (obj1, obj2) => {
     delete obj1.close;
-    let o1 = obj1 instanceof Object;
-    let o2 = obj2 instanceof Object;
+    const o1 = obj1 instanceof Object;
+    const o2 = obj2 instanceof Object;
     if (!o1 || !o2) {
         return obj1 === obj2;
     }
@@ -206,9 +179,9 @@ export const diff = (obj1, obj2) => {
         return false;
     }
 
-    for (let attr in obj1) {
-        let t1 = obj1[attr] instanceof Object;
-        let t2 = obj2[attr] instanceof Object;
+    for (const attr in obj1) {
+        const t1 = obj1[attr] instanceof Object;
+        const t2 = obj2[attr] instanceof Object;
         if (t1 && t2) {
             return diff(obj1[attr], obj2[attr]);
         } else if (obj1[attr] !== obj2[attr]) {
@@ -226,7 +199,7 @@ export const diff = (obj1, obj2) => {
  * @returns {string|*}
  */
 export const findDicLabel = (dic, value) => {
-    let result = '';
+    let result: any = '';
     if (isNull(dic)) return value;
     if (typeof (value) == 'string' || typeof (value) == 'number' || typeof (value) == 'boolean') {
         let index = 0;
@@ -289,18 +262,18 @@ export const randomLenNum = (len, date) => {
  * @returns {{leave1: number, hours: number, seconds: number, leave2: number, leave3: number, minutes: number, days: number}}
  */
 export const calcDate = (date1, date2) => {
-    let date3 = date2 - date1;
+    const date3 = date2 - date1;
 
-    let days = Math.floor(date3 / (24 * 3600 * 1000));
+    const days = Math.floor(date3 / (24 * 3600 * 1000));
 
-    let leave1 = date3 % (24 * 3600 * 1000);//计算天数后剩余的毫秒数
-    let hours = Math.floor(leave1 / (3600 * 1000));
+    const leave1 = date3 % (24 * 3600 * 1000);//计算天数后剩余的毫秒数
+    const hours = Math.floor(leave1 / (3600 * 1000));
 
-    let leave2 = leave1 % (3600 * 1000);//计算小时数后剩余的毫秒数
-    let minutes = Math.floor(leave2 / (60 * 1000));
+    const leave2 = leave1 % (3600 * 1000);//计算小时数后剩余的毫秒数
+    const minutes = Math.floor(leave2 / (60 * 1000));
 
-    let leave3 = leave2 % (60 * 1000);//计算分钟数后剩余的毫秒数
-    let seconds = Math.round(date3 / 1000);
+    const leave3 = leave2 % (60 * 1000);//计算分钟数后剩余的毫秒数
+    const seconds = Math.round(date3 / 1000);
     return {
         leave1,
         leave2,
@@ -321,7 +294,7 @@ export const calcDate = (date1, date2) => {
 export function dateFormat(date) {
     let format = 'yyyy-MM-dd hh:mm:ss';
     if (date !== 'Invalid Date') {
-        let o = {
+        const o = {
             "M+": date.getMonth() + 1, //month
             "d+": date.getDate(), //day
             "h+": date.getHours(), //hour
@@ -332,7 +305,7 @@ export function dateFormat(date) {
         };
         if (/(y+)/.test(format)) format = format.replace(RegExp.$1,
             (date.getFullYear() + "").substr(4 - RegExp.$1.length));
-        for (let k in o)
+        for (const k in o)
             if (new RegExp("(" + k + ")").test(format))
                 format = format.replace(RegExp.$1,
                     RegExp.$1.length === 1 ? o[k] :
@@ -341,17 +314,6 @@ export function dateFormat(date) {
     }
     return '';
 }
-
-/**
- * 打开全屏/关闭全屏
- */
-export const triggerFullscreen = () => {
-    if (fullscreenEnable()) {
-        exitFullScreen();
-    } else {
-        reqFullScreen();
-    }
-};
 
 /**
  * esc监听全屏
@@ -378,70 +340,11 @@ export const listenFullscreen = (callback) => {
 };
 
 /**
- * 浏览器判断是否全屏
- */
-export const fullscreenEnable = () => {
-    return document.isFullScreen || document.mozIsFullScreen || document.webkitIsFullScreen;
-};
-
-/**
- * 浏览器全屏
- */
-export const reqFullScreen = () => {
-    if (document.documentElement.requestFullScreen) {
-        document.documentElement.requestFullScreen();
-    } else if (document.documentElement.webkitRequestFullScreen) {
-        document.documentElement.webkitRequestFullScreen();
-    } else if (document.documentElement.mozRequestFullScreen) {
-        document.documentElement.mozRequestFullScreen();
-    }
-};
-
-/**
- * 浏览器退出全屏
- */
-export const exitFullScreen = () => {
-    if (document.documentElement.requestFullScreen) {
-        document.exitFullScreen();
-    } else if (document.documentElement.webkitRequestFullScreen) {
-        document.webkitCancelFullScreen();
-    } else if (document.documentElement.mozRequestFullScreen) {
-        document.mozCancelFullScreen();
-    }
-};
-
-/**
- * 打开小窗口
- *
- * @param url
- * @param title
- * @param w
- * @param h
- */
-export const openWindow = (url, title, w, h) => {
-    // Fixes dual-screen position                            Most browsers       Firefox
-    const dualScreenLeft = window.screenLeft !== undefined ? window.screenLeft : screen.left;
-    const dualScreenTop = window.screenTop !== undefined ? window.screenTop : screen.top;
-
-    const width = window.innerWidth ? window.innerWidth : document.documentElement.clientWidth ? document.documentElement.clientWidth : screen.width;
-    const height = window.innerHeight ? window.innerHeight : document.documentElement.clientHeight ? document.documentElement.clientHeight : screen.height;
-
-    const left = ((width / 2) - (w / 2)) + dualScreenLeft;
-    const top = ((height / 2) - (h / 2)) + dualScreenTop;
-    const newWindow = window.open(url, title, 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=yes, copyhistory=no, width=' + w + ', height=' + h + ', top=' + top + ', left=' + left);
-
-    // Puts focus on the newWindow
-    if (window.focus) {
-        newWindow.focus()
-    }
-};
-
-/**
  * 判断是否为Url
  * @param url
  * @returns {boolean}
  */
-export function isUrl(url) {
+export function isUrl(url: any) {
     return /^http[s]?:\/\/.*/.test(url);
 }
 
@@ -450,7 +353,7 @@ export function isUrl(url) {
  * @param email
  * @returns {boolean}
  */
-export function isEmail(email) {
+export function isEmail(email: any) {
     return /^([a-zA-Z0-9_\\.\\-])+\\@(([a-zA-Z0-9\\-])+\\.)+([a-zA-Z0-9]{2,4})+$/.test(email);
 }
 
@@ -459,7 +362,7 @@ export function isEmail(email) {
  * @param phone
  * @returns {boolean}
  */
-export function isPhone(phone) {
+export function isPhone(phone: any) {
     return /^(13[0-9]|14[5|7]|15[0|1|2|3|4|5|6|7|8|9]|18[0|1|2|3|5|6|7|8|9])\\d{8}$/.test(phone);
 }
 
@@ -469,7 +372,7 @@ export function isPhone(phone) {
  * @param type
  * @returns {boolean}
  */
-export function isNum(num, type) {
+export function isNum(num: any, type: any) {
     let regName = /[^\d.]/g;
     if (type == 1) {
         if (!regName.test(num)) return false;
@@ -486,7 +389,7 @@ export function isNum(num, type) {
  * @param type
  * @returns {boolean}
  */
-export function isNumord(num, type) {
+export function isNumord(num: any, type: any) {
     let regName = /[^\d.]/g;
     if (type == 1) {
         if (!regName.test(num)) return false;
@@ -502,7 +405,7 @@ export function isNumord(num, type) {
  * @param val
  * @returns {boolean}
  */
-export function isNull(val) {
+export function isNull(val: any) {
     if (typeof val == 'boolean') {
         return false;
     }
@@ -525,11 +428,11 @@ export function isNull(val) {
  *
  * @param message
  */
-export const successMessage = (message) => {
+export const successMessage = (message: string | null) => {
     if (message === '' || message == null) {
         message = '操作成功!';
     }
-    Notification.success({
+    ElNotification.success({
         title: '成功',
         message: message,
         onClose: () => {
@@ -545,7 +448,7 @@ export const successMessage = (message) => {
  * @param message
  * @param error
  */
-export const failMessage = (message, error) => {
+export const failMessage = (message: string | null, error: any) => {
     let show = true;
     if (message === '' || message == null) {
         message = '操作失败!';
@@ -559,7 +462,7 @@ export const failMessage = (message, error) => {
     if (show) {
         failNotify = true;
         failNotifyText = message;
-        Notification.error({
+        ElNotification.error({
             title: '错误',
             dangerouslyUseHTMLString: true,
             message: `${message}`,

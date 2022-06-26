@@ -18,13 +18,13 @@ const token = {
             });
         },
         GenerateToken({commit}, form) {
-            let login = {
+            const login = {
                 tenant: form.tenant,
                 name: form.name,
                 salt: form.salt,
                 password: md5(md5(form.password) + form.salt)
             };
-            return new Promise((resolve, reject) => {
+            return new Promise<void>((resolve, reject) => {
                 generateToken(login).then(res => {
                     const data = res.data;
                     commit('SET_TOKEN',
@@ -42,8 +42,8 @@ const token = {
             });
         },
         ClearToken({commit}) {
-            return new Promise((resolve) => {
-                let token = getStore(common.token_header);
+            return new Promise<void>((resolve) => {
+                const token = getStore(common.token_header, false);
                 if (token && token.name) {
                     cancelToken(token.name);
                 }
@@ -55,11 +55,11 @@ const token = {
     mutations: {
         SET_TOKEN: (state, token) => {
             setCookies(common.token_header, token);
-            setStore(common.token_header, token);
+            setStore(common.token_header, token, false);
         },
         REMOVE_TOKEN: () => {
             removeCookies(common.token_header);
-            removeStore(common.token_header);
+            removeStore(common.token_header, false);
         }
     }
 };

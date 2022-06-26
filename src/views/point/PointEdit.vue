@@ -37,7 +37,6 @@
                                            class="edit-form-medium"
                                            placeholder="请选择数据类型"
                                            v-model="pointFormData.type">
-                                    <el-option label="字符串(string)" value="string"></el-option>
                                     <el-option label="字节(byte)" value="byte"></el-option>
                                     <el-option label="短整数(short)" value="short"></el-option>
                                     <el-option label="整数(int)" value="int"></el-option>
@@ -140,101 +139,101 @@
 </template>
 
 <script>
-    import pointList from '../point/PointList'
-    import {pointById, pointUpdate} from "@/api/point";
+import pointList from '../point/PointList'
+import {pointById, pointUpdate} from "@/api/point";
 
-    export default {
-        components: {pointList},
-        data() {
-            return {
-                id: this.$route.query.id,
-                active: +this.$route.query.active,
-                oldPointFormData: {},
-                pointFormData: {
-                    pointIds: []
-                },
-                pointFormRule: {
-                    name: [
-                        {
-                            required: true,
-                            message: '请输入位号名称',
-                            trigger: 'blur'
-                        }, {
-                            min: 2,
-                            max: 32,
-                            message: '请输入 2~32 位字长的位号名称',
-                            trigger: 'blur'
-                        }, {
-                            pattern: /^[A-Za-z0-9\u4e00-\u9fa5][A-Za-z0-9\u4e00-\u9fa5-_]*$/,
-                            message: '请输入正确格式的位号名称'
-                        }
-                    ],
-                    enable: [
-                        {
-                            required: true,
-                            message: '请选择使能',
-                            trigger: 'change'
-                        }
-                    ],
-                    description: [
-                        {
-                            max: 300,
-                            message: '最多输入300个字符',
-                            trigger: 'blur'
-                        }
-                    ]
-                }
-            }
-        },
-        created() {
-            this.point();
-        },
-        methods: {
-            point() {
-                let id = this.$route.query.id;
-                pointById(id).then(res => {
-                    this.pointFormData = res.data;
-                    this.oldPointFormData = {...res.data};
-                }).catch(() => {
-                });
+export default {
+    components: {pointList},
+    data() {
+        return {
+            id: this.$route.query.id,
+            active: +this.$route.query.active,
+            oldPointFormData: {},
+            pointFormData: {
+                pointIds: []
             },
-            pointUpdate() {
-                this.$refs['pointFormData'].validate((valid) => {
-                    if (valid) {
-                        pointUpdate(this.pointFormData).then(res => {
-                            this.oldPointFormData = {...res.data};
-                        }).catch(() => {
-                        });
+            pointFormRule: {
+                name: [
+                    {
+                        required: true,
+                        message: '请输入位号名称',
+                        trigger: 'blur'
+                    }, {
+                        min: 2,
+                        max: 32,
+                        message: '请输入 2~32 位字长的位号名称',
+                        trigger: 'blur'
+                    }, {
+                        pattern: /^[A-Za-z0-9\u4e00-\u9fa5][A-Za-z0-9\u4e00-\u9fa5-_]*$/,
+                        message: '请输入正确格式的位号名称'
                     }
-                });
-            },
-            pre() {
-                this.active--;
-                this.changeActive(this.active);
-            },
-            next() {
-                this.active++;
-                if (this.active > 0) {
-                    this.$router.push({name: 'profileEdit', query: {id: this.$route.query.profileId, active: '1'}})
-                        .catch(() => {
-                        });
-                } else {
-                    this.changeActive(this.active);
-                }
-            },
-            pointReset() {
-                this.pointFormData = {...this.oldPointFormData};
-            },
-            changeActive(step) {
-                let query = this.$route.query;
-                this.$router.push({query: {...query, active: step}})
-                    .catch(() => {
-                    });
+                ],
+                enable: [
+                    {
+                        required: true,
+                        message: '请选择使能',
+                        trigger: 'change'
+                    }
+                ],
+                description: [
+                    {
+                        max: 300,
+                        message: '最多输入300个字符',
+                        trigger: 'blur'
+                    }
+                ]
             }
         }
-    };
+    },
+    created() {
+        this.point();
+    },
+    methods: {
+        point() {
+            let id = this.$route.query.id;
+            pointById(id).then(res => {
+                this.pointFormData = res.data;
+                this.oldPointFormData = {...res.data};
+            }).catch(() => {
+            });
+        },
+        pointUpdate() {
+            this.$refs['pointFormData'].validate((valid) => {
+                if (valid) {
+                    pointUpdate(this.pointFormData).then(res => {
+                        this.oldPointFormData = {...res.data};
+                    }).catch(() => {
+                    });
+                }
+            });
+        },
+        pre() {
+            this.active--;
+            this.changeActive(this.active);
+        },
+        next() {
+            this.active++;
+            if (this.active > 0) {
+                this.$router.push({name: 'profileEdit', query: {id: this.$route.query.profileId, active: '1'}})
+                    .catch(() => {
+                    });
+            } else {
+                this.changeActive(this.active);
+            }
+        },
+        pointReset() {
+            this.pointFormData = {...this.oldPointFormData};
+        },
+        changeActive(step) {
+            let query = this.$route.query;
+            this.$router.push({query: {...query, active: step}})
+                .catch(() => {
+                });
+        }
+    }
+};
 </script>
 
 <style lang="scss">
-    @import "~@/components/card/styles/edit-card.scss";
+@import "~@/components/card/styles/edit-card.scss";
 </style>

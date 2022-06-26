@@ -1,5 +1,5 @@
-import {isNull} from "@/util/util";
-import {decode, encode} from 'js-base64';
+import { isNull } from "@/util/util";
+import { decode, encode } from 'js-base64';
 import Cookies from "js-cookie";
 
 export function getCookies(key) {
@@ -15,7 +15,7 @@ export function removeCookies(key) {
 }
 
 export const setStore = (key, value, isSession) => {
-    let obj = {
+    const obj = {
         dataType: typeof (value),
         content: value,
         type: isSession,
@@ -25,8 +25,8 @@ export const setStore = (key, value, isSession) => {
     else window.localStorage.setItem(key, encode(JSON.stringify(obj)));
 };
 
-export const getStore = (key, debug) => {
-    let obj = {}, content;
+export const getStore = (key: string, debug: boolean) => {
+    let obj: any, content: any;
     obj = window.localStorage.getItem(key);
     if (isNull(obj)) obj = window.sessionStorage.getItem(key);
     if (isNull(obj)) return;
@@ -59,19 +59,19 @@ export const removeStore = (key, isSession) => {
 };
 
 export const getAllStore = (isSession) => {
-    let list = [];
+    const list = [] as Array<{ name: string | null, content: any }>;
     if (isSession) {
         for (let i = 0; i <= window.sessionStorage.length; i++) {
             list.push({
                 name: window.sessionStorage.key(i),
-                content: getStore(window.sessionStorage.key(i))
+                content: getStore(window.sessionStorage.key(i) || '', false)
             })
         }
     } else {
         for (let i = 0; i <= window.localStorage.length; i++) {
             list.push({
                 name: window.localStorage.key(i),
-                content: getStore(window.localStorage.key(i))
+                content: getStore(window.localStorage.key(i) || '', false)
             })
 
         }

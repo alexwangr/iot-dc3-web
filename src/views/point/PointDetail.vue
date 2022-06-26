@@ -5,10 +5,10 @@
                 <el-tab-pane label="位号详情" name="detail">
                     <detail-card>
                         <ul>
-                            <li><i class="el-icon-data-line"></i> 位号名称: {{data.name}}</li>
-                            <li><i class="el-icon-collection-tag"></i> 关联设备 [{{listDeviceData.length||0}} 个]: {{deviceName()}}</li>
-                            <li><i class="el-icon-edit-outline"></i> 修改日期: {{timestamp(data.createTime)}}</li>
-                            <li><i class="el-icon-sunset"></i> 创建日期: {{timestamp(data.updateTime)}}</li>
+                            <li><i class="el-icon-data-line"></i> 位号名称: {{ data.name }}</li>
+                            <li><i class="el-icon-collection-tag"></i> 关联设备 [{{ listDeviceData.length || 0 }} 个]: {{ deviceName() }}</li>
+                            <li><i class="el-icon-edit-outline"></i> 修改日期: {{ timestamp(data.createTime) }}</li>
+                            <li><i class="el-icon-sunset"></i> 创建日期: {{ timestamp(data.updateTime) }}</li>
                         </ul>
                     </detail-card>
                 </el-tab-pane>
@@ -16,11 +16,11 @@
                     <el-row>
                         <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="4" :key="data.id" v-for="data in listDeviceData">
                             <device-card
-                                    :data="data"
-                                    :driverTable="driverTable"
-                                    :profileTable="profileTable"
-                                    :statusTable="statusTable"
-                                    :embedded="true"
+                                :data="data"
+                                :driverTable="driverTable"
+                                :profileTable="profileTable"
+                                :statusTable="statusTable"
+                                :embedded="true"
                             ></device-card>
                         </el-col>
                     </el-row>
@@ -30,90 +30,90 @@
     </div>
 </template>
 <script>
-    import baseCard from '@/components/card/base-card';
-    import detailCard from '@/components/card/detail-card';
-    import deviceCard from '../device/DeviceCard';
-    import pointCard from '../point/PointCard';
-    import {dateFormat, setCopyContent} from "@/util/util";
-    import {deviceByDriverId, deviceStatusByDriverId} from "@/api/device";
-    import {driverDictionary, profileDictionary} from "@/api/dictionary";
-    import {driverById} from "@/api/driver";
+import baseCard from '@/components/card/base-card';
+import detailCard from '@/components/card/detail-card';
+import deviceCard from '../device/DeviceCard';
+import pointCard from '../point/PointCard';
+import {dateFormat, setCopyContent} from "@/util/util";
+import {deviceByDriverId, deviceStatusByDriverId} from "@/api/device";
+import {driverDictionary, profileDictionary} from "@/api/dictionary";
+import {driverById} from "@/api/driver";
 
-    export default {
-        components: {baseCard, detailCard, deviceCard, pointCard},
-        data() {
-            return {
-                id: this.$route.query.id,
-                active: this.$route.query.active,
-                driverTable: {},
-                profileTable: {},
-                statusTable: {},
-                data: {},
-                listDeviceData: []
-            }
+export default {
+    components: {baseCard, detailCard, deviceCard, pointCard},
+    data() {
+        return {
+            id: this.$route.query.id,
+            active: this.$route.query.active,
+            driverTable: {},
+            profileTable: {},
+            statusTable: {},
+            data: {},
+            listDeviceData: []
+        }
+    },
+    created() {
+        this.driver();
+        this.device();
+        this.drivers();
+        this.profiles();
+    },
+    methods: {
+        driver() {
+            driverById(this.id).then(res => {
+                this.data = res.data;
+            }).catch(() => {
+            });
         },
-        created() {
-            this.driver();
-            this.device();
-            this.drivers();
-            this.profiles();
-        },
-        methods: {
-            driver() {
-                driverById(this.id).then(res => {
-                    this.data = res.data;
-                }).catch(() => {
-                });
-            },
-            device() {
-                deviceByDriverId(this.id).then(res => {
-                    this.listDeviceData = res.data;
-                }).catch(() => {
-                });
+        device() {
+            deviceByDriverId(this.id).then(res => {
+                this.listDeviceData = res.data;
+            }).catch(() => {
+            });
 
-                deviceStatusByDriverId(this.id).then(res => {
-                    this.statusTable = res.data;
-                }).catch(() => {
+            deviceStatusByDriverId(this.id).then(res => {
+                this.statusTable = res.data;
+            }).catch(() => {
+            });
+        },
+        drivers() {
+            driverDictionary().then(res => {
+                this.driverTable = res.data.reduce((pre, cur) => {
+                    pre[cur.value] = cur.label;
+                    return pre;
+                }, {});
+            }).catch(() => {
+            });
+        },
+        profiles() {
+            profileDictionary().then(res => {
+                this.profileTable = res.data.reduce((pre, cur) => {
+                    pre[cur.value] = cur.label;
+                    return pre;
+                }, {});
+            }).catch(() => {
+            });
+        },
+        deviceName() {
+            return this.listDeviceData.map(device => device.name).join(", ");
+        },
+        changeActive(tab) {
+            let query = this.$route.query;
+            this.$router.push({query: {...query, active: tab.name}})
+                .catch(() => {
                 });
-            },
-            drivers() {
-                driverDictionary().then(res => {
-                    this.driverTable = res.data.reduce((pre, cur) => {
-                        pre[cur.value] = cur.label;
-                        return pre;
-                    }, {});
-                }).catch(() => {
-                });
-            },
-            profiles() {
-                profileDictionary().then(res => {
-                    this.profileTable = res.data.reduce((pre, cur) => {
-                        pre[cur.value] = cur.label;
-                        return pre;
-                    }, {});
-                }).catch(() => {
-                });
-            },
-            deviceName() {
-                return this.listDeviceData.map(device => device.name).join(", ");
-            },
-            changeActive(tab) {
-                let query = this.$route.query;
-                this.$router.push({query: {...query, active: tab.name}})
-                    .catch(() => {
-                    });
-            },
-            copyId(content) {
-                setCopyContent(content, true, '位号ID');
-            },
-            timestamp(timestamp) {
-                return dateFormat(new Date(timestamp));
-            }
+        },
+        copyId(content) {
+            setCopyContent(content, true, '位号ID');
+        },
+        timestamp(timestamp) {
+            return dateFormat(new Date(timestamp));
         }
     }
+}
 
 </script>
 
 <style lang="scss">
-    @import "~@/components/card/styles/things-card.scss";
+@import "~@/components/card/styles/things-card.scss";
 </style>

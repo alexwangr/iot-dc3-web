@@ -1,6 +1,8 @@
-import Layout from '@/components/layout/Layout';
+import { RouteRecordRaw } from 'vue-router';
 
-export default [
+import Layout from '@/components/layout/Layout.vue';
+
+const routes: Array<RouteRecordRaw> = [
     {
         path: '/home',
         component: Layout,
@@ -8,22 +10,22 @@ export default [
             {
                 name: 'dashboard',
                 path: '/home/dashboard',
-                icon: 'el-icon-s-home',
                 meta: {
+                    icon: 'el-icon-s-home',
                     isAuth: true,
                     title: '看板'
                 },
-                component: () => import('@/views/dashboard/Dashboard')
+                component: () => import('@/views/dashboard/Dashboard.vue')
             },
             {
                 name: 'application',
                 path: '/home/application',
-                icon: 'el-icon-s-home',
                 meta: {
+                    icon: 'el-icon-s-home',
                     isAuth: true,
                     title: '应用'
                 },
-                component: () => import('@/views/application/Application')
+                component: () => import('@/views/application/Application.vue')
             }
         ]
     },
@@ -34,12 +36,12 @@ export default [
             {
                 name: 'driverDetail',
                 path: '/driver/detail',
-                icon: 'el-icon-s-promotion',
                 meta: {
+                    icon: 'el-icon-s-promotion',
                     isAuth: true,
                     title: '驱动详情'
                 },
-                component: () => import('@/views/driver/DriverDetail')
+                component: () => import('@/views/driver/DriverDetail.vue')
             }
         ]
     },
@@ -50,12 +52,12 @@ export default [
             {
                 name: 'gatewayDetail',
                 path: '/gateway/detail',
-                icon: 'el-icon-s-platform',
                 meta: {
+                    icon: 'el-icon-s-platform',
                     isAuth: true,
                     title: '网关详情'
                 },
-                component: () => import('@/views/gateway/GatewayDetail')
+                component: () => import('@/views/gateway/GatewayDetail.vue')
             }
         ]
     },
@@ -66,21 +68,21 @@ export default [
             {
                 name: 'deviceDetail',
                 path: '/device/detail',
-                icon: 'el-icon-s-finance',
                 meta: {
+                    icon: 'el-icon-s-finance',
                     isAuth: true,
                     title: '设备详情'
                 },
-                component: () => import('@/views/device/DeviceDetail')
+                component: () => import('@/views/device/DeviceDetail.vue')
             }, {
                 name: 'deviceEdit',
                 path: '/device/edit',
-                icon: 'el-icon-s-finance',
                 meta: {
+                    icon: 'el-icon-s-finance',
                     isAuth: true,
                     title: '设备编辑'
                 },
-                component: () => import('@/views/device/DeviceEdit')
+                component: () => import('@/views/device/DeviceEdit.vue')
             }
         ]
     },
@@ -91,41 +93,43 @@ export default [
             {
                 name: 'profileDetail',
                 path: '/profile/detail',
-                icon: 'el-icon-s-order',
                 meta: {
+                    icon: 'el-icon-s-order',
                     isAuth: true,
                     title: '模板详情'
                 },
-                component: () => import('@/views/profile/ProfileDetail')
+                component: () => import('@/views/profile/ProfileDetail.vue')
             }, {
                 name: 'profileEdit',
                 path: '/profile/edit',
-                icon: 'el-icon-s-order',
                 meta: {
+                    icon: 'el-icon-s-order',
                     isAuth: true,
                     title: '模板编辑'
                 },
-                component: () => import('@/views/profile/ProfileEdit')
+                component: () => import('@/views/profile/ProfileEdit.vue')
             }, {
                 name: 'pointDetail',
                 path: '/profile/point/detail',
-                icon: 'el-icon-s-order',
                 meta: {
+                    icon: 'el-icon-s-order',
                     isAuth: true,
                     title: '位号详情'
                 },
-                component: () => import('@/views/point/PointDetail')
+                component: () => import('@/views/point/PointDetail.vue')
             }, {
                 name: 'pointEdit',
                 path: '/profile/point/edit',
-                icon: 'el-icon-s-order',
                 meta: {
+                    icon: 'el-icon-s-order',
                     isAuth: true,
                     title: '位号编辑'
                 },
-                component: () => import('@/views/point/PointEdit')
+                component: () => import('@/views/point/PointEdit.vue')
             }
         ]
     }
 ]
+
+export default routes
 

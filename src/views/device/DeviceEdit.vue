@@ -29,10 +29,10 @@
                                            filterable
                                            v-model="deviceFormData.driverId">
                                     <el-option
-                                            :label="dictionary.label"
-                                            :value="dictionary.value"
-                                            :key="dictionary.value"
-                                            v-for="dictionary in driverDictionary"
+                                        :label="dictionary.label"
+                                        :value="dictionary.value"
+                                        :key="dictionary.value"
+                                        v-for="dictionary in driverDictionary"
                                     ></el-option>
                                 </el-select>
                             </el-form-item>
@@ -64,10 +64,10 @@
                                            filterable
                                            v-model="deviceFormData.profileIds">
                                     <el-option
-                                            :label="dictionary.label"
-                                            :value="dictionary.value"
-                                            :key="dictionary.value"
-                                            v-for="dictionary in profileDictionary"
+                                        :label="dictionary.label"
+                                        :value="dictionary.value"
+                                        :key="dictionary.value"
+                                        v-for="dictionary in profileDictionary"
                                     ></el-option>
                                 </el-select>
                             </el-form-item>
@@ -175,9 +175,9 @@
                         </el-col>
                         <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="4" :key="data.id" v-if="data" v-for="data in pointInfoData">
                             <point-info-card
-                                    :data="data"
-                                    :attributes="pointAttributes"
-                                    @select-change="changePointInfo"
+                                :data="data"
+                                :attributes="pointAttributes"
+                                @select-change="changePointInfo"
                             ></point-info-card>
                         </el-col>
                     </el-row>
@@ -188,367 +188,367 @@
 </template>
 
 <script>
-    import skeletonCard from '@/components/card/skeleton-card';
-    import {driverDictionary, profileDictionary} from "@/api/dictionary";
-    import {deviceById, deviceUpdate} from "@/api/device";
-    import {driverAttributeByDriverId, pointAttributeByDriverId} from "@/api/attribute";
-    import {driverInfoAdd, driverInfoByDeviceId, driverInfoUpdate, pointInfoAdd, pointInfoByDeviceId, pointInfoUpdate} from "@/api/info";
-    import {pointByDeviceId} from "@/api/point";
-    import pointInfoCard from "../point/info/PointInfoCard"
+import skeletonCard from '@/components/card/skeleton-card';
+import {driverDictionary, profileDictionary} from "@/api/dictionary";
+import {deviceById, deviceUpdate} from "@/api/device";
+import {driverAttributeByDriverId, pointAttributeByDriverId} from "@/api/attribute";
+import {driverInfoAdd, driverInfoByDeviceId, driverInfoUpdate, pointInfoAdd, pointInfoByDeviceId, pointInfoUpdate} from "@/api/info";
+import {pointByDeviceId} from "@/api/point";
+import pointInfoCard from "../point/info/PointInfoCard"
 
-    export default {
-        components: {skeletonCard, pointInfoCard},
-        data() {
-            return {
-                id: this.$route.query.id,
-                driverId: this.$route.query.driverId,
-                active: +this.$route.query.active,
-                loading: true,
-                driverDictionary: [],
-                profileDictionary: [],
-                driverTable: {},
-                profileTable: {},
-                pointTable: {},
-                oldDeviceFormData: {},
-                deviceFormData: {
-                    profileIds: []
-                },
-                deviceFormRule: {
-                    name: [
-                        {
-                            required: true,
-                            message: '请输入设备名称',
-                            trigger: 'blur'
-                        }, {
-                            min: 2,
-                            max: 32,
-                            message: '请输入 2~32 位字长的设备名称',
-                            trigger: 'blur'
-                        }, {
-                            pattern: /^[A-Za-z0-9\u4e00-\u9fa5][A-Za-z0-9\u4e00-\u9fa5-_]*$/,
-                            message: '请输入正确格式的设备名称'
-                        }
-                    ],
-                    driverId: [
-                        {
-                            required: true,
-                            message: '请选择所属驱动',
-                            trigger: 'change'
-                        }
-                    ],
-                    profileIds: [
-                        {
-                            required: true,
-                            message: '请选择包含模板',
-                            trigger: 'change'
-                        }
-                    ],
-                    multi: [
-                        {
-                            required: true,
-                            message: '请选择存储类型',
-                            trigger: 'change'
-                        }
-                    ],
-                    enable: [
-                        {
-                            required: true,
-                            message: '请选择使能',
-                            trigger: 'change'
-                        }
-                    ],
-                    description: [
-                        {
-                            max: 300,
-                            message: '最多输入300个字符',
-                            trigger: 'blur'
-                        }
-                    ]
-                },
-                driverAttributes: [],
-                driverAttributeTable: {},
-                oldDriverFormData: {},
-                driverFormData: {},
-                pointAttributes: [],
-                pointAttributeTable: {},
-                oldPointFormData: {},
-                pointFormData: {},
-                pointInfoData: []
-            }
+export default {
+    components: {skeletonCard, pointInfoCard},
+    data() {
+        return {
+            id: this.$route.query.id,
+            driverId: this.$route.query.driverId,
+            active: +this.$route.query.active,
+            loading: true,
+            driverDictionary: [],
+            profileDictionary: [],
+            driverTable: {},
+            profileTable: {},
+            pointTable: {},
+            oldDeviceFormData: {},
+            deviceFormData: {
+                profileIds: []
+            },
+            deviceFormRule: {
+                name: [
+                    {
+                        required: true,
+                        message: '请输入设备名称',
+                        trigger: 'blur'
+                    }, {
+                        min: 2,
+                        max: 32,
+                        message: '请输入 2~32 位字长的设备名称',
+                        trigger: 'blur'
+                    }, {
+                        pattern: /^[A-Za-z0-9\u4e00-\u9fa5][A-Za-z0-9\u4e00-\u9fa5-_]*$/,
+                        message: '请输入正确格式的设备名称'
+                    }
+                ],
+                driverId: [
+                    {
+                        required: true,
+                        message: '请选择所属驱动',
+                        trigger: 'change'
+                    }
+                ],
+                profileIds: [
+                    {
+                        required: true,
+                        message: '请选择包含模板',
+                        trigger: 'change'
+                    }
+                ],
+                multi: [
+                    {
+                        required: true,
+                        message: '请选择存储类型',
+                        trigger: 'change'
+                    }
+                ],
+                enable: [
+                    {
+                        required: true,
+                        message: '请选择使能',
+                        trigger: 'change'
+                    }
+                ],
+                description: [
+                    {
+                        max: 300,
+                        message: '最多输入300个字符',
+                        trigger: 'blur'
+                    }
+                ]
+            },
+            driverAttributes: [],
+            driverAttributeTable: {},
+            oldDriverFormData: {},
+            driverFormData: {},
+            pointAttributes: [],
+            pointAttributeTable: {},
+            oldPointFormData: {},
+            pointFormData: {},
+            pointInfoData: []
+        }
+    },
+    created() {
+        this.driver();
+        this.profile();
+        this.device();
+        this.point();
+    },
+    methods: {
+        device() {
+            let id = this.$route.query.id;
+            deviceById(id).then(res => {
+                this.deviceFormData = res.data;
+                this.changeDriver(this.driverId);
+                this.changePoint();
+                this.oldDeviceFormData = {...res.data}
+            }).catch(() => {
+            });
         },
-        created() {
-            this.driver();
-            this.profile();
-            this.device();
-            this.point();
+        driver() {
+            driverDictionary().then(res => {
+                this.driverDictionary = res.data;
+                this.driverTable = this.driverDictionary.reduce((pre, cur) => {
+                    pre[cur.value] = cur.label;
+                    return pre;
+                }, {});
+            }).catch(() => {
+            });
         },
-        methods: {
-            device() {
-                let id = this.$route.query.id;
-                deviceById(id).then(res => {
-                    this.deviceFormData = res.data;
-                    this.changeDriver(this.driverId);
-                    this.changePoint();
-                    this.oldDeviceFormData = {...res.data};
-                }).catch(() => {
-                });
-            },
-            driver() {
-                driverDictionary().then(res => {
-                    this.driverDictionary = res.data;
-                    this.driverTable = this.driverDictionary.reduce((pre, cur) => {
-                        pre[cur.value] = cur.label;
-                        return pre;
-                    }, {});
-                }).catch(() => {
-                });
-            },
-            profile() {
-                profileDictionary().then(res => {
-                    this.profileDictionary = res.data;
-                    this.profileTable = this.profileDictionary.reduce((pre, cur) => {
-                        pre[cur.value] = cur.label;
-                        return pre;
-                    }, {});
-                }).catch(() => {
-                });
-            },
-            point() {
-                pointByDeviceId(this.id).then(res1 => {
-                    this.pointTable = res1.data.reduce((pre, cur) => {
-                        pre[cur.id] = cur.name;
-                        return pre;
-                    }, {});
+        profile() {
+            profileDictionary().then(res => {
+                this.profileDictionary = res.data;
+                this.profileTable = this.profileDictionary.reduce((pre, cur) => {
+                    pre[cur.value] = cur.label;
+                    return pre;
+                }, {});
+            }).catch(() => {
+            });
+        },
+        point() {
+            pointByDeviceId(this.id).then(res1 => {
+                this.pointTable = res1.data.reduce((pre, cur) => {
+                    pre[cur.id] = cur.name;
+                    return pre;
+                }, {});
 
-                    pointAttributeByDriverId(this.driverId).then(res2 => {
-                        this.pointAttributes = res2.data;
-                        this.pointAttributeTable = this.pointAttributes.reduce((pre, cur) => {
-                            pre[cur.id] = cur.name;
-                            return pre;
-                        }, {});
-
-                        this.pointInfoData = res1.data.map(point => {
-                            let pointInfo = {
-                                id: point.id,
-                                name: point.name,
-                                shadow: 'hover'
-                            };
-
-                            res2.data.forEach(attribute => {
-                                pointInfo[attribute.name] = {
-                                    id: null,
-                                    value: ''
-                                }
-                            });
-                            return pointInfo;
-                        });
-                    }).catch(() => {
-                    });
-
-                }).catch(() => {
-                }).finally(() => {
-                    this.loading = false;
-                });
-            },
-            profileName(profileId) {
-                return this.profileTable[profileId];
-            },
-            changeDriver(driverId) {
-                driverAttributeByDriverId(driverId).then(res => {
-                    this.driverAttributes = res.data;
-                    this.driverAttributeTable = res.data.reduce((pre, cur) => {
-                        pre[cur.id] = cur.name;
-                        return pre;
-                    }, {});
-
-                    let formData = {};
-                    res.data.forEach(attribute => {
-                        formData[attribute.name] = {
-                            id: null,
-                            value: ''
-                        };
-                    });
-                    this.driverFormData = JSON.parse(JSON.stringify(formData));
-                    this.oldDriverFormData = JSON.parse(JSON.stringify(formData));
-
-                    driverInfoByDeviceId(this.id).then(res => {
-                        let formData = {};
-                        res.data.forEach(info => {
-                            formData[this.driverAttributeTable[info.driverAttributeId]] = {
-                                id: info.id,
-                                value: info.value
-                            };
-                        });
-
-                        this.driverFormData = JSON.parse(JSON.stringify(formData));
-                        this.oldDriverFormData = JSON.parse(JSON.stringify(formData));
-                    }).catch(() => {
-                    });
-                }).catch(() => {
-                });
-            },
-            changePoint() {
-                pointAttributeByDriverId(this.driverId).then(res => {
-                    this.pointAttributes = res.data;
+                pointAttributeByDriverId(this.driverId).then(res2 => {
+                    this.pointAttributes = res2.data;
                     this.pointAttributeTable = this.pointAttributes.reduce((pre, cur) => {
                         pre[cur.id] = cur.name;
                         return pre;
                     }, {});
 
-                    pointInfoByDeviceId(this.id).then(res => {
-                        res.data.forEach(info => {
-                            this.pointInfoData = this.pointInfoData.map(pointInfo => {
-                                if (pointInfo.id === info.pointId) {
-                                    pointInfo[this.pointAttributeTable[info.pointAttributeId]] = {
-                                        id: info.id,
-                                        value: info.value
-                                    }
-                                }
-                                return pointInfo;
-                            });
+                    this.pointInfoData = res1.data.map(point => {
+                        let pointInfo = {
+                            id: point.id,
+                            name: point.name,
+                            shadow: 'hover'
+                        }
+
+                        res2.data.forEach(attribute => {
+                            pointInfo[attribute.name] = {
+                                id: null,
+                                value: ''
+                            }
                         });
-                    }).catch(() => {
+                        return pointInfo;
                     });
                 }).catch(() => {
                 });
-            },
-            changePointInfo(row) {
-                this.pointAttributes.forEach(attribute => {
-                    if (!row[attribute.name]) {
-                        row[attribute.name] = {
-                            id: null,
-                            value: ''
-                        }
+
+            }).catch(() => {
+            }).finally(() => {
+                this.loading = false;
+            });
+        },
+        profileName(profileId) {
+            return this.profileTable[profileId];
+        },
+        changeDriver(driverId) {
+            driverAttributeByDriverId(driverId).then(res => {
+                this.driverAttributes = res.data;
+                this.driverAttributeTable = res.data.reduce((pre, cur) => {
+                    pre[cur.id] = cur.name;
+                    return pre;
+                }, {});
+
+                let formData = {}
+                res.data.forEach(attribute => {
+                    formData[attribute.name] = {
+                        id: null,
+                        value: ''
                     }
                 });
-                this.pointFormData = JSON.parse(JSON.stringify(row));
+                this.driverFormData = JSON.parse(JSON.stringify(formData));
+                this.oldDriverFormData = JSON.parse(JSON.stringify(formData));
 
-                this.pointInfoData.forEach(pointInfo => {
-                    pointInfo.shadow = 'hover';
-                    if (row.id === pointInfo.id) {
-                        pointInfo.shadow = 'always';
-                    }
+                driverInfoByDeviceId(this.id).then(res => {
+                    let formData = {};
+                    res.data.forEach(info => {
+                        formData[this.driverAttributeTable[info.driverAttributeId]] = {
+                            id: info.id,
+                            value: info.value
+                        };
+                    });
+
+                    this.driverFormData = JSON.parse(JSON.stringify(formData));
+                    this.oldDriverFormData = JSON.parse(JSON.stringify(formData));
+                }).catch(() => {
                 });
-            },
-            deviceUpdate() {
-                this.$refs['deviceFormData'].validate((valid) => {
-                    if (valid) {
-                        deviceUpdate(this.deviceFormData).then(res => {
-                            this.changeDriver(this.driverId);
-                            this.changePoint(this.id);
-                            this.oldDeviceFormData = {...res.data};
-                        }).catch(() => {
-                        });
-                    }
-                });
-            },
-            driverUpdate() {
-                this.$refs['driverFormData'].validate((valid) => {
-                    if (valid) {
-                        let formData = {};
-                        this.driverAttributes.forEach(attribute => {
-                            let driverInfo = {
-                                id: this.driverFormData[attribute.name].id,
-                                driverAttributeId: attribute.id,
-                                deviceId: this.id,
-                                value: this.driverFormData[attribute.name].value
-                            };
+            }).catch(() => {
+            });
+        },
+        changePoint() {
+            pointAttributeByDriverId(this.driverId).then(res => {
+                this.pointAttributes = res.data;
+                this.pointAttributeTable = this.pointAttributes.reduce((pre, cur) => {
+                    pre[cur.id] = cur.name;
+                    return pre;
+                }, {});
 
-                            driverInfo.id ?
-                                driverInfoUpdate(driverInfo)
-                                    .then(res => loadFormData(formData, res, this))
-                                    .catch(() => {
-                                    }) :
-                                driverInfoAdd(driverInfo)
-                                    .then(res => loadFormData(formData, res, this))
-                                    .catch(() => {
-                                    });
-
-                            function loadFormData(formData, res, that) {
-                                formData[attribute.name] = {
-                                    id: res.data.id,
-                                    value: res.data.value
-                                };
-                                that.oldDriverFormData = JSON.parse(JSON.stringify(formData));
+                pointInfoByDeviceId(this.id).then(res => {
+                    res.data.forEach(info => {
+                        this.pointInfoData = this.pointInfoData.map(pointInfo => {
+                            if (pointInfo.id === info.pointId) {
+                                pointInfo[this.pointAttributeTable[info.pointAttributeId]] = {
+                                    id: info.id,
+                                    value: info.value
+                                }
                             }
+                            return pointInfo;
                         });
-                    }
+                    });
+                }).catch(() => {
                 });
-            },
-            pointUpdate() {
-                this.$refs['pointFormData'].validate((valid) => {
-                    if (valid) {
-                        this.pointAttributes.forEach(attribute => {
-                            let pointInfo = {
-                                id: this.pointFormData[attribute.name].id,
-                                pointAttributeId: attribute.id,
-                                deviceId: this.id,
-                                pointId: this.pointFormData.id,
-                                value: this.pointFormData[attribute.name].value
-                            };
+            }).catch(() => {
+            });
+        },
+        changePointInfo(row) {
+            this.pointAttributes.forEach(attribute => {
+                if (!row[attribute.name]) {
+                    row[attribute.name] = {
+                        id: null,
+                        value: ''
+                    }
+                }
+            });
+            this.pointFormData = JSON.parse(JSON.stringify(row));
 
-                            pointInfo.id ?
-                                pointInfoUpdate(pointInfo)
-                                    .then(res => loadTableData(res, attribute, this))
-                                    .catch(() => {
-                                    }) :
-                                pointInfoAdd(pointInfo)
-                                    .then(res => loadTableData(res, attribute, this))
-                                    .catch(() => {
-                                    });
+            this.pointInfoData.forEach(pointInfo => {
+                pointInfo.shadow = 'hover';
+                if (row.id === pointInfo.id) {
+                    pointInfo.shadow = 'always';
+                }
+            });
+        },
+        deviceUpdate() {
+            this.$refs['deviceFormData'].validate((valid) => {
+                if (valid) {
+                    deviceUpdate(this.deviceFormData).then(res => {
+                        this.changeDriver(this.driverId);
+                        this.changePoint(this.id);
+                        this.oldDeviceFormData = {...res.data};
+                    }).catch(() => {
+                    });
+                }
+            });
+        },
+        driverUpdate() {
+            this.$refs['driverFormData'].validate((valid) => {
+                if (valid) {
+                    let formData = {};
+                    this.driverAttributes.forEach(attribute => {
+                        let driverInfo = {
+                            id: this.driverFormData[attribute.name].id,
+                            driverAttributeId: attribute.id,
+                            deviceId: this.id,
+                            value: this.driverFormData[attribute.name].value
+                        };
 
-                            function loadTableData(res, attribute, that) {
-                                that.pointInfoData = that.pointInfoData.map(tableData => {
-                                    if (tableData.id === that.pointFormData.id) {
-                                        tableData[attribute.name] = {
-                                            id: res.data.id,
-                                            value: res.data.value
-                                        };
-                                    }
-                                    return tableData;
+                        driverInfo.id ?
+                            driverInfoUpdate(driverInfo)
+                                .then(res => loadFormData(formData, res, this))
+                                .catch(() => {
+                                }) :
+                            driverInfoAdd(driverInfo)
+                                .then(res => loadFormData(formData, res, this))
+                                .catch(() => {
                                 });
-                            }
-                        });
-                    }
-                });
-            },
-            pre() {
-                this.active--;
-                this.changeActive(this.active);
-            },
-            next() {
-                let step = 1;
-                if (this.active === 0 && this.driverAttributes.length < 1) {
-                    step = 2;
+
+                        function loadFormData(formData, res, that) {
+                            formData[attribute.name] = {
+                                id: res.data.id,
+                                value: res.data.value
+                            };
+                            that.oldDriverFormData = JSON.parse(JSON.stringify(formData));
+                        }
+                    });
                 }
-                this.active += step;
-                if (this.active > 2) {
-                    this.$router.push({name: 'device'})
-                        .catch(() => {
-                        });
-                } else {
-                    this.changeActive(this.active);
+            });
+        },
+        pointUpdate() {
+            this.$refs['pointFormData'].validate((valid) => {
+                if (valid) {
+                    this.pointAttributes.forEach(attribute => {
+                        let pointInfo = {
+                            id: this.pointFormData[attribute.name].id,
+                            pointAttributeId: attribute.id,
+                            deviceId: this.id,
+                            pointId: this.pointFormData.id,
+                            value: this.pointFormData[attribute.name].value
+                        };
+
+                        pointInfo.id ?
+                            pointInfoUpdate(pointInfo)
+                                .then(res => loadTableData(res, attribute, this))
+                                .catch(() => {
+                                }) :
+                            pointInfoAdd(pointInfo)
+                                .then(res => loadTableData(res, attribute, this))
+                                .catch(() => {
+                                });
+
+                        function loadTableData(res, attribute, that) {
+                            that.pointInfoData = that.pointInfoData.map(tableData => {
+                                if (tableData.id === that.pointFormData.id) {
+                                    tableData[attribute.name] = {
+                                        id: res.data.id,
+                                        value: res.data.value
+                                    };
+                                }
+                                return tableData;
+                            });
+                        }
+                    });
                 }
-            },
-            deviceReset() {
-                this.deviceFormData = {...this.oldDeviceFormData};
-            },
-            driverReset() {
-                this.driverFormData = JSON.parse(JSON.stringify(this.oldDriverFormData));
-            },
-            pointReset() {
-                this.$refs['pointFormData'].resetFields();
-            },
-            changeActive(step) {
-                let query = this.$route.query;
-                this.$router.push({query: {...query, active: step}})
+            });
+        },
+        pre() {
+            this.active--;
+            this.changeActive(this.active);
+        },
+        next() {
+            let step = 1;
+            if (this.active === 0 && this.driverAttributes.length < 1) {
+                step = 2;
+            }
+            this.active += step;
+            if (this.active > 2) {
+                this.$router.push({name: 'device'})
                     .catch(() => {
                     });
+            } else {
+                this.changeActive(this.active);
             }
+        },
+        deviceReset() {
+            this.deviceFormData = {...this.oldDeviceFormData};
+        },
+        driverReset() {
+            this.driverFormData = JSON.parse(JSON.stringify(this.oldDriverFormData));
+        },
+        pointReset() {
+            this.$refs['pointFormData'].resetFields();
+        },
+        changeActive(step) {
+            let query = this.$route.query;
+            this.$router.push({query: {...query, active: step}})
+                .catch(() => {
+                });
         }
-    };
+    }
+};
 </script>
 
 <style lang="scss">
-    @import "~@/components/card/styles/edit-card.scss";
+@import "~@/components/card/styles/edit-card.scss";
 </style>

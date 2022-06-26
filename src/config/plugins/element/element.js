@@ -1,13 +1,16 @@
-import Vue from 'vue';
+import {createApp} from 'vue'
 
-import Element from 'element-ui';
-import 'element-ui/lib/theme-chalk/index.css';
-import './element-variables.scss';
+import Element from 'element-plus'
+import 'element-plus/dist/index.css'
+//import './element-variables.scss'
+import locale from 'element-plus/es/locale/lang/zh-cn'
 
-import locale from 'element-ui/lib/locale/lang/zh-CN';
-import GeminiScrollbar from 'vue-gemini-scrollbar';
-import Sparkline from 'vue-sparklines';
+import Sparkline from 'vue-sparklines'
 
-Vue.use(Element, {locale});
-Vue.use(GeminiScrollbar);
-Vue.use(Sparkline);
+import App from "@/App"
+
+const app = createApp(App)
+app.use(Element, {locale})
+app.use(Sparkline)
+
+export default app

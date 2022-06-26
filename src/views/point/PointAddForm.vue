@@ -1,5 +1,5 @@
 <template>
-    <el-dialog title="新增位号" :visible.sync="formVisible"
+    <el-dialog title="新增位号" v-model:visible="formVisible"
                class="things-dialog"
                :show-close="false"
                :append-to-body="true"
@@ -17,7 +17,6 @@
                 <el-select clearable
                            placeholder="请选择数据类型"
                            v-model="formData.type">
-                    <el-option label="字符串(string)" value="string"></el-option>
                     <el-option label="字节(byte)" value="byte"></el-option>
                     <el-option label="短整数(short)" value="short"></el-option>
                     <el-option label="整数(int)" value="int"></el-option>
@@ -99,137 +98,137 @@
 </template>
 
 <script>
-    import {successMessage} from "@/util/util";
+import {successMessage} from "@/util/util";
 
-    export default {
-        name: "point-add-form",
-        props: {
-            profileId: {
-                type: String,
-                default: () => {
-                    return '';
-                }
+export default {
+    name: "point-add-form",
+    props: {
+        profileId: {
+            type: String,
+            default: () => {
+                return '';
             }
-        },
-        data() {
-            return {
-                formData: {
-                    profileId: this.profileId,
-                    type: 'string',
-                    rw: 0,
-                    accrue: false,
-                    base: 0,
-                    multiple: 1,
-                    format: '%.3f',
-                    unit: '"',
-                    minimum: -999999,
-                    maximum: 999999
-                },
-                formRule: {
-                    name: [
-                        {
-                            required: true,
-                            message: '请输入位号名称',
-                            trigger: 'blur'
-                        }, {
-                            min: 2,
-                            max: 32,
-                            message: '请输入 2~32 位字长的位号名称',
-                            trigger: 'blur'
-                        }, {
-                            pattern: /^[A-Za-z0-9\u4e00-\u9fa5][A-Za-z0-9\u4e00-\u9fa5-_]*$/,
-                            message: '请输入正确格式的位号名称'
-                        }
-                    ],
-                    type: [
-                        {
-                            required: true,
-                            message: '请选择位号数据类型',
-                            trigger: 'change'
-                        }
-                    ],
-                    rw: [
-                        {
-                            required: true,
-                            message: '请选择位号读写类型',
-                            trigger: 'change'
-                        }
-                    ],
-                    accrue: [
-                        {
-                            required: true,
-                            message: '请选择位号是否为累计数据',
-                            trigger: 'change'
-                        }
-                    ],
-                    base: [
-                        {
-                            pattern: /^-?(([0-9]*(\.[0-9]{1,3})$)|([0-9]+$))/,
-                            message: '请输入 正确格式的基值'
-                        }
-                    ],
-                    multiple: [
-                        {
-                            pattern: /^-?(([0-9]*(\.[0-9]{1,3})$)|([0-9]+$))/,
-                            message: '请输入 正确格式的倍数'
-                        }
-                    ],
-                    format: [
-                        {
-                            required: true,
-                            message: '请输入 数据格式',
-                            trigger: 'blur'
-                        }
-                    ],
-                    minimum: [
-                        {
-                            pattern: /^-?(([0-9]*(\.[0-9]{1,3})$)|([0-9]+$))/,
-                            message: '请输入 正确格式的最小值'
-                        }
-                    ],
-                    maximum: [
-                        {
-                            pattern: /^-?(([0-9]*(\.[0-9]{1,3})$)|([0-9]+$))/,
-                            message: '请输入 正确格式的最大值'
-                        }
-                    ],
-                    description: [
-                        {
-                            max: 300,
-                            message: '最多输入300个字符',
-                            trigger: 'blur'
-                        }
-                    ]
-                },
-                formVisible: false
-            }
-        },
-        methods: {
-            show() {
-                this.formVisible = true;
-            },
-            cancel() {
-                this.formVisible = false;
-            },
-            reset() {
-                this.$refs['formData'].resetFields();
-            },
-            addThing() {
-                this.$refs['formData'].validate((valid) => {
-                    if (valid) {
-                        this.$emit('add-thing', this.formData, () => {
-                            this.cancel();
-                            this.reset();
-                            successMessage();
-                        });
-                    }
-                });
-            }
-
         }
-    };
+    },
+    data() {
+        return {
+            formData: {
+                profileId: this.profileId,
+                type: 'float',
+                rw: 0,
+                accrue: false,
+                base: 0,
+                multiple: 1,
+                format: '%.3f',
+                unit: '"',
+                minimum: -999999,
+                maximum: 999999
+            },
+            formRule: {
+                name: [
+                    {
+                        required: true,
+                        message: '请输入位号名称',
+                        trigger: 'blur'
+                    }, {
+                        min: 2,
+                        max: 32,
+                        message: '请输入 2~32 位字长的位号名称',
+                        trigger: 'blur'
+                    }, {
+                        pattern: /^[A-Za-z0-9\u4e00-\u9fa5][A-Za-z0-9\u4e00-\u9fa5-_]*$/,
+                        message: '请输入正确格式的位号名称'
+                    }
+                ],
+                type: [
+                    {
+                        required: true,
+                        message: '请选择位号数据类型',
+                        trigger: 'change'
+                    }
+                ],
+                rw: [
+                    {
+                        required: true,
+                        message: '请选择位号读写类型',
+                        trigger: 'change'
+                    }
+                ],
+                accrue: [
+                    {
+                        required: true,
+                        message: '请选择位号是否为累计数据',
+                        trigger: 'change'
+                    }
+                ],
+                base: [
+                    {
+                        pattern: /^-?(([0-9]*(\.[0-9]{1,3})$)|([0-9]+$))/,
+                        message: '请输入 正确格式的基值'
+                    }
+                ],
+                multiple: [
+                    {
+                        pattern: /^-?(([0-9]*(\.[0-9]{1,3})$)|([0-9]+$))/,
+                        message: '请输入 正确格式的倍数'
+                    }
+                ],
+                format: [
+                    {
+                        required: true,
+                        message: '请输入 数据格式',
+                        trigger: 'blur'
+                    }
+                ],
+                minimum: [
+                    {
+                        pattern: /^-?(([0-9]*(\.[0-9]{1,3})$)|([0-9]+$))/,
+                        message: '请输入 正确格式的最小值'
+                    }
+                ],
+                maximum: [
+                    {
+                        pattern: /^-?(([0-9]*(\.[0-9]{1,3})$)|([0-9]+$))/,
+                        message: '请输入 正确格式的最大值'
+                    }
+                ],
+                description: [
+                    {
+                        max: 300,
+                        message: '最多输入300个字符',
+                        trigger: 'blur'
+                    }
+                ]
+            },
+            formVisible: false
+        }
+    },
+    methods: {
+        show() {
+            this.formVisible = true;
+        },
+        cancel() {
+            this.formVisible = false;
+        },
+        reset() {
+            this.$refs['formData'].resetFields();
+        },
+        addThing() {
+            this.$refs['formData'].validate((valid) => {
+                if (valid) {
+                    this.$emit('add-thing', this.formData, () => {
+                        this.cancel();
+                        this.reset();
+                        successMessage();
+                    });
+                }
+            });
+        }
+
+    }
+};
 </script>
 
 <style lang="scss">
-    @import "~@/components/dialog/styles/things-dialog.scss";
+@import "~@/components/dialog/styles/things-dialog.scss";
 </style>

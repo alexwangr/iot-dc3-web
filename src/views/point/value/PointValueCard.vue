@@ -4,7 +4,7 @@
             <div class="things-card-content">
                 <div class="things-card__header" v-bind:class="{'header-enable':data.interval<200,'header-disable':data.interval>=200}">
                     <div class="things-card-header-icon"><img :src="icon" :alt="data.name"></div>
-                    <div class="things-card-header-name nowrap-name" @click="copyId(data.id)">{{point(data.pointId)}}</div>
+                    <div class="things-card-header-name nowrap-name" @click="copyId(data.id)">{{ point(data.pointId) }}</div>
                     <div title="读写类型" class="things-card-header-status">
                         <el-tag v-if="data.rw===0" type="warning" effect="plain">只读</el-tag>
                         <el-tag v-else-if="data.rw===1" type="info" effect="plain">只写</el-tag>
@@ -14,25 +14,25 @@
                 <div class="things-card__body">
                     <div class="things-card-body-content">
                         <ul class="things-card-body-content-value">
-                            <li title="处理值，点击复制" class="nowrap-item value" @click="copyValue(data)">{{data.value}}  {{data.unit}}</li>
-                            <li title="计算值" class="nowrap-item">{{data.calculateValue||'-'}}</li>
-                            <li class="nowrap-item"><span><i class="el-icon-sunrise"/> 原始值: </span>{{data.rawValue}}</li>
-                            <li v-if="!embedded" class="nowrap-item value-point"><span><i class="el-icon-s-finance"/> 所属设备: </span>{{device(data.deviceId)}}</li>
-                            <li v-if="!embedded" class="nowrap-item"><span><i class="el-icon-timer"/> 数据延时: </span>{{data.interval}} ms</li>
-                            <li class="nowrap-item"><span><i class="el-icon-edit-outline"/> 采集日期: </span>{{timestamp(data.originTime)}}</li>
-                            <li class="nowrap-item"><span><i class="el-icon-sunset"/> 保存日期: </span>{{timestamp(data.createTime)}}</li>
+                            <li title="处理值，点击复制" class="nowrap-item value" @click="copyValue(data)">{{ data.value }} {{ data.unit }}</li>
+                            <li title="计算值" class="nowrap-item">{{ data.calculateValue || '-' }}</li>
+                            <li class="nowrap-item"><span><i class="el-icon-sunrise"/> 原始值: </span>{{ data.rawValue }}</li>
+                            <li v-if="!embedded" class="nowrap-item value-point"><span><i class="el-icon-s-finance"/> 所属设备: </span>{{ device(data.deviceId) }}</li>
+                            <li v-if="!embedded" class="nowrap-item"><span><i class="el-icon-timer"/> 数据延时: </span>{{ data.interval }} ms</li>
+                            <li class="nowrap-item"><span><i class="el-icon-edit-outline"/> 采集日期: </span>{{ timestamp(data.originTime) }}</li>
+                            <li class="nowrap-item"><span><i class="el-icon-sunset"/> 保存日期: </span>{{ timestamp(data.createTime) }}</li>
                             <li v-if="embedded" title="详细内容" class="value-detail nowrap-item">
                                 <i class="el-icon-zoom-in" @click="showDetail(data)"/>
                             </li>
                         </ul>
                     </div>
                     <div v-if="embedded" class="things-card-body-content-time">
-                        <sparkline>
-                            <sparklineCurve :data="line"
-                                            :limit="100"
-                                            :refLineStyles="spRefLineStyles"
-                                            :styles="spCurveStyles"/>
-                        </sparkline>
+                        <sparklines>
+                            <sparkline-curve :data="line"
+                                             :limit="100"
+                                             :refLineStyles="spRefLineStyles"
+                                             :styles="spCurveStyles"/>
+                        </sparklines>
                     </div>
                 </div>
                 <div v-if="!embedded" class="things-card__footer">
@@ -50,136 +50,136 @@
 </template>
 
 <script>
-    import {dateFormat, setCopyContent} from '@/util/util';
+import {dateFormat, setCopyContent} from '@/util/util';
 
-    export default {
-        name: "point-value-card",
-        props: {
-            embedded: {
-                type: Boolean,
-                default: () => {
-                    return false;
-                }
-            },
-            deviceTable: {
-                type: Object,
-                default: () => {
-                    return {};
-                }
-            },
-            pointTable: {
-                type: Object,
-                default: () => {
-                    return {};
-                }
-            },
-            historyData: {
-                type: Object,
-                default: () => {
-                    return {};
-                }
-            },
-            data: {
-                type: Object,
-                default: () => {
-                    return {
-                        deviceId: '',
-                        pointId: '',
-                        value: '',
-                        rawValue: '',
-                        calculateValue: '',
-                        interval: '',
-                        createTime: '',
-                        originTime: ''
-                    };
-                }
-            },
-            icon: {
-                type: String,
-                default: 'images/common/point.png'
+export default {
+    name: "point-value-card",
+    props: {
+        embedded: {
+            type: Boolean,
+            default: () => {
+                return false;
             }
         },
-        data() {
-            return {
-                spRefLineStyles: {
-                    stroke: '#54a5ff',
-                    strokeOpacity: 0.5,
-                    strokeDasharray: '2, 2'
-                },
-                spCurveStyles: {
-                    stroke: '#54a5ff'
-                }
+        deviceTable: {
+            type: Object,
+            default: () => {
+                return {};
             }
         },
-        mounted() {
-        },
-        computed: {
-            line() {
-                return this.embedded ? this.historyData[this.data.pointId] : [];
+        pointTable: {
+            type: Object,
+            default: () => {
+                return {};
             }
         },
-        methods: {
-            device(id) {
-                return this.deviceTable[id] || 'NaN';
-            },
-            point(id) {
-                return this.pointTable[id] || 'NaN';
-            },
-            showEdit(pointValue) {
-                this.$emit('showEdit', pointValue);
-            },
-            showDetail(data) {
-                let dataValue = data.value;
-                try {
-                    dataValue = JSON.parse(data.value)
-                } catch (ignore) {
-                }
-
-                let content = {
-                    deviceId: data.deviceId,
-                    pointId: data.pointId,
-                    type: data.type,
-                    value: dataValue,
-                    calculateValue: data.calculateValue,
-                    rawValue: data.rawValue
+        historyData: {
+            type: Object,
+            default: () => {
+                return {};
+            }
+        },
+        data: {
+            type: Object,
+            default: () => {
+                return {
+                    deviceId: '',
+                    pointId: '',
+                    value: '',
+                    rawValue: '',
+                    calculateValue: '',
+                    interval: '',
+                    createTime: '',
+                    originTime: ''
                 };
-
-                this.$emit('showDetail', content);
+            }
+        },
+        icon: {
+            type: String,
+            default: 'images/common/point.png'
+        }
+    },
+    data() {
+        return {
+            spRefLineStyles: {
+                stroke: '#54a5ff',
+                strokeOpacity: 0.5,
+                strokeDasharray: '2, 2'
             },
-            copyId(content) {
-                setCopyContent(content, true, '位号值ID');
-            },
-            copyValue(data) {
-                let content = {
-                    deviceId: data.deviceId,
-                    pointId: data.pointId,
-                    value: data.value
-                };
-                setCopyContent(JSON.stringify(content, null, 2), true, '位号值');
-            },
-            timestamp(timestamp) {
-                return dateFormat(new Date(timestamp));
+            spCurveStyles: {
+                stroke: '#54a5ff'
             }
         }
-    };
+    },
+    mounted() {
+    },
+    computed: {
+        line() {
+            return this.embedded ? this.historyData[this.data.pointId] : [];
+        }
+    },
+    methods: {
+        device(id) {
+            return this.deviceTable[id] || 'NaN';
+        },
+        point(id) {
+            return this.pointTable[id] || 'NaN';
+        },
+        showEdit(pointValue) {
+            this.$emit('showEdit', pointValue);
+        },
+        showDetail(data) {
+            let dataValue = data.value;
+            try {
+                dataValue = JSON.parse(data.value)
+            } catch (ignore) {
+            }
+
+            let content = {
+                deviceId: data.deviceId,
+                pointId: data.pointId,
+                type: data.type,
+                value: dataValue,
+                calculateValue: data.calculateValue,
+                rawValue: data.rawValue
+            };
+
+            this.$emit('showDetail', content);
+        },
+        copyId(content) {
+            setCopyContent(content, true, '位号值ID');
+        },
+        copyValue(data) {
+            let content = {
+                deviceId: data.deviceId,
+                pointId: data.pointId,
+                value: data.value
+            };
+            setCopyContent(JSON.stringify(content, null, 2), true, '位号值');
+        },
+        timestamp(timestamp) {
+            return dateFormat(new Date(timestamp));
+        }
+    }
+};
 </script>
 
 <style lang="scss">
-    @import "~@/components/card/styles/things-card.scss";
+@import "~@/components/card/styles/things-card.scss";
 
-    .things-card-body-content-time {
-        #value-line {
-            width: 100%;
-            height: 50px;
-        }
+.things-card-body-content-time {
+    #value-line {
+        width: 100%;
+        height: 50px;
+    }
 
-        .sparkline-wrap {
-            width: 100%;
+    .sparkline-wrap {
+        width: 100%;
 
-            svg {
-                width: 100% !important;
-            }
+        svg {
+            width: 100% !important;
         }
     }
+}
 </style>
 

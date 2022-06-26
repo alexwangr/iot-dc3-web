@@ -1,5 +1,5 @@
 <template>
-    <el-dialog title="编辑位号值" :visible.sync="formVisible"
+    <el-dialog title="编辑位号值" v-model:visible="formVisible"
                class="things-dialog"
                :show-close="false"
                :append-to-body="true"
@@ -32,65 +32,65 @@
 </template>
 
 <script>
-    import {successMessage} from "@/util/util";
+import {successMessage} from "@/util/util";
 
-    export default {
-        name: "point-value-edit-form",
-        props: {
-            formData: {
-                type: Object,
-                default: () => {
-                    return {}
-                }
+export default {
+    name: "point-value-edit-form",
+    props: {
+        formData: {
+            type: Object,
+            default: () => {
+                return {}
             }
-        },
-        data() {
-            return {
-                formRule: {
-                    value: [
-                        {
-                            required: true,
-                            message: '请输入位号值',
-                            trigger: 'blur'
-                        }
-                    ],
-                    description: [
-                        {
-                            max: 300,
-                            message: '最多输入300个字符',
-                            trigger: 'blur'
-                        }
-                    ]
-                },
-                formVisible: false
-            }
-        },
-        methods: {
-            show() {
-                this.formVisible = true;
-            },
-            cancel() {
-                this.formVisible = false;
-            },
-            reset() {
-                this.$refs['formData'].resetFields();
-            },
-            updateThing() {
-                this.$refs['formData'].validate((valid) => {
-                    if (valid) {
-                        this.$emit('update-thing', this.formData, () => {
-                            this.cancel();
-                            this.reset();
-                            successMessage();
-                        });
-                    }
-                });
-            }
-
         }
-    };
+    },
+    data() {
+        return {
+            formRule: {
+                value: [
+                    {
+                        required: true,
+                        message: '请输入位号值',
+                        trigger: 'blur'
+                    }
+                ],
+                description: [
+                    {
+                        max: 300,
+                        message: '最多输入300个字符',
+                        trigger: 'blur'
+                    }
+                ]
+            },
+            formVisible: false
+        }
+    },
+    methods: {
+        show() {
+            this.formVisible = true;
+        },
+        cancel() {
+            this.formVisible = false;
+        },
+        reset() {
+            this.$refs['formData'].resetFields();
+        },
+        updateThing() {
+            this.$refs['formData'].validate((valid) => {
+                if (valid) {
+                    this.$emit('update-thing', this.formData, () => {
+                        this.cancel();
+                        this.reset();
+                        successMessage();
+                    });
+                }
+            });
+        }
+
+    }
+};
 </script>
 
 <style lang="scss">
-    @import "~@/components/dialog/styles/things-dialog.scss";
+@import "~@/components/dialog/styles/things-dialog.scss";
 </style>

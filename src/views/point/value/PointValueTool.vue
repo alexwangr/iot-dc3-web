@@ -51,67 +51,67 @@
 </template>
 
 <script>
-    export default {
-        name: "point-value-tool",
-        props: {
-            deviceDictionary: {
-                type: Array,
-                default: () => {
-                    return [];
-                }
-            },
-            pointDictionary: {
-                type: Array,
-                default: () => {
-                    return [];
-                }
-            },
-            page: {
-                type: Object,
-                default: () => {
-                    return {}
-                }
+export default {
+    name: "point-value-tool",
+    props: {
+        deviceDictionary: {
+            type: Array,
+            default: () => {
+                return [];
             }
         },
-        data() {
-            return {
-                formData: {},
-                formRule: {}
+        pointDictionary: {
+            type: Array,
+            default: () => {
+                return [];
             }
         },
-        methods: {
-            search() {
-                this.$refs['formData'].validate((valid) => {
-                    if (valid) {
-                        let formData = {};
-                        let data = this.formData;
-                        if (data.deviceId && data.deviceId[1]) {
-                            formData.deviceId = data.deviceId[1];
-                        }
-                        if (data.pointId && data.pointId[1]) {
-                            formData.pointId = data.pointId[1];
-                        }
-                        this.$emit('search', formData);
-                    }
-                });
-            },
-            reset() {
-                this.$refs['formData'].resetFields();
-                this.$emit('reset');
-            },
-            refresh() {
-                this.$emit('refresh');
-            },
-            sizeChange(size) {
-                this.$emit('size-change', size);
-            },
-            currentChange(current) {
-                this.$emit('current-change', current);
+        page: {
+            type: Object,
+            default: () => {
+                return {}
             }
         }
-    };
+    },
+    data() {
+        return {
+            formData: {},
+            formRule: {}
+        }
+    },
+    methods: {
+        search() {
+            this.$refs['formData'].validate((valid) => {
+                if (valid) {
+                    let formData = {};
+                    let data = this.formData;
+                    if (data.deviceId && data.deviceId[1]) {
+                        formData.deviceId = data.deviceId[1];
+                    }
+                    if (data.pointId && data.pointId[1]) {
+                        formData.pointId = data.pointId[1];
+                    }
+                    this.$emit('search', formData);
+                }
+            });
+        },
+        reset() {
+            this.$refs['formData'].resetFields();
+            this.$emit('reset');
+        },
+        refresh() {
+            this.$emit('refresh');
+        },
+        sizeChange(size) {
+            this.$emit('size-change', size);
+        },
+        currentChange(current) {
+            this.$emit('current-change', current);
+        }
+    }
+};
 </script>
 
 <style lang="scss">
-    @import "~@/components/card/styles/tool-card.scss";
+@import "~@/components/card/styles/tool-card.scss";
 </style>

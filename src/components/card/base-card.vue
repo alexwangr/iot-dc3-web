@@ -7,32 +7,32 @@
 </template>
 
 <script>
-    export default {
-        name: "base-card"
-    };
+export default {
+    name: "base-card"
+}
 </script>
 
 <style lang="scss">
-    .base-card {
-        border-radius: 5px;
-        box-sizing: border-box;
+.base-card {
+    border-radius: 5px;
+    box-sizing: border-box;
 
-        ul {
-            list-style: none;
+    ul {
+        list-style: none;
 
-            li {
-                font-size: 13px;
-                margin-top: 8px;
-            }
-        }
-
-        .el-card {
-            width: 100%;
-            box-sizing: border-box;
-        }
-
-        .el-card__body {
-            padding: 10px;
+        li {
+            font-size: 13px;
+            margin-top: 8px;
         }
     }
+
+    .el-card {
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .el-card__body {
+        padding: 10px;
+    }
+}
 </style>

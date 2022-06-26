@@ -57,10 +57,10 @@
             <div class="edit-content">
                 <el-divider content-position="left">模板位号配置</el-divider>
                 <point-list
-                        :pre="true"
-                        :profileId="id"
-                        @pre-handle="pre"
-                        @next-handle="next"
+                    :pre="true"
+                    :profileId="id"
+                    @pre-handle="pre"
+                    @next-handle="next"
                 ></point-list>
             </div>
         </el-card>
@@ -68,101 +68,101 @@
 </template>
 
 <script>
-    import pointList from '../point/PointList';
-    import {profileById, profileUpdate} from "@/api/profile";
+import pointList from '../point/PointList';
+import {profileById, profileUpdate} from "@/api/profile";
 
-    export default {
-        components: {pointList},
-        data() {
-            return {
-                id: this.$route.query.id,
-                active: +this.$route.query.active,
-                oldProfileFormData: {},
-                profileFormData: {
-                    pointIds: []
-                },
-                profileFormRule: {
-                    name: [
-                        {
-                            required: true,
-                            message: '请输入模板名称',
-                            trigger: 'blur'
-                        }, {
-                            min: 2,
-                            max: 32,
-                            message: '请输入 2~32 位字长的模板名称',
-                            trigger: 'blur'
-                        }, {
-                            pattern: /^[A-Za-z0-9\u4e00-\u9fa5][A-Za-z0-9\u4e00-\u9fa5-_]*$/,
-                            message: '请输入正确格式的模板名称'
-                        }
-                    ],
-                    enable: [
-                        {
-                            required: true,
-                            message: '请选择使能',
-                            trigger: 'change'
-                        }
-                    ],
-                    description: [
-                        {
-                            max: 300,
-                            message: '最多输入300个字符',
-                            trigger: 'blur'
-                        }
-                    ]
-                }
-            }
-        },
-        created() {
-            this.profile();
-        },
-        methods: {
-            profile() {
-                let id = this.$route.query.id;
-                profileById(id).then(res => {
-                    this.profileFormData = res.data;
-                    this.oldProfileFormData = {...res.data};
-                }).catch(() => {
-                });
+export default {
+    components: {pointList},
+    data() {
+        return {
+            id: this.$route.query.id,
+            active: +this.$route.query.active,
+            oldProfileFormData: {},
+            profileFormData: {
+                pointIds: []
             },
-            profileUpdate() {
-                this.$refs['profileFormData'].validate((valid) => {
-                    if (valid) {
-                        profileUpdate(this.profileFormData).then(res => {
-                            this.oldProfileFormData = {...res.data};
-                        }).catch(() => {
-                        });
+            profileFormRule: {
+                name: [
+                    {
+                        required: true,
+                        message: '请输入模板名称',
+                        trigger: 'blur'
+                    }, {
+                        min: 2,
+                        max: 32,
+                        message: '请输入 2~32 位字长的模板名称',
+                        trigger: 'blur'
+                    }, {
+                        pattern: /^[A-Za-z0-9\u4e00-\u9fa5][A-Za-z0-9\u4e00-\u9fa5-_]*$/,
+                        message: '请输入正确格式的模板名称'
                     }
-                });
-            },
-            pre() {
-                this.active--;
-                this.changeActive(this.active);
-            },
-            next() {
-                this.active++;
-                if (this.active > 1) {
-                    this.$router.push({name: 'profile'})
-                        .catch(() => {
-                        });
-                } else {
-                    this.changeActive(this.active);
-                }
-            },
-            profileReset() {
-                this.profileFormData = {...this.oldProfileFormData};
-            },
-            changeActive(step) {
-                let query = this.$route.query;
-                this.$router.push({query: {...query, active: step}})
-                    .catch(() => {
-                    });
+                ],
+                enable: [
+                    {
+                        required: true,
+                        message: '请选择使能',
+                        trigger: 'change'
+                    }
+                ],
+                description: [
+                    {
+                        max: 300,
+                        message: '最多输入300个字符',
+                        trigger: 'blur'
+                    }
+                ]
             }
         }
-    };
+    },
+    created() {
+        this.profile();
+    },
+    methods: {
+        profile() {
+            let id = this.$route.query.id;
+            profileById(id).then(res => {
+                this.profileFormData = res.data;
+                this.oldProfileFormData = {...res.data};
+            }).catch(() => {
+            });
+        },
+        profileUpdate() {
+            this.$refs['profileFormData'].validate((valid) => {
+                if (valid) {
+                    profileUpdate(this.profileFormData).then(res => {
+                        this.oldProfileFormData = {...res.data};
+                    }).catch(() => {
+                    });
+                }
+            });
+        },
+        pre() {
+            this.active--;
+            this.changeActive(this.active);
+        },
+        next() {
+            this.active++;
+            if (this.active > 1) {
+                this.$router.push({name: 'profile'})
+                    .catch(() => {
+                    });
+            } else {
+                this.changeActive(this.active);
+            }
+        },
+        profileReset() {
+            this.profileFormData = {...this.oldProfileFormData};
+        },
+        changeActive(step) {
+            let query = this.$route.query;
+            this.$router.push({query: {...query, active: step}})
+                .catch(() => {
+                });
+        }
+    }
+};
 </script>
 
 <style lang="scss">
-    @import "~@/components/card/styles/edit-card.scss";
+@import "~@/components/card/styles/edit-card.scss";
 </style>
