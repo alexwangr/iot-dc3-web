@@ -1,0 +1,27 @@
+version: '3'
+
+services:
+  web:
+    image: registry.cn-beijing.aliyuncs.com/dc3/iot-dc3-web:demo
+    restart: always
+    ports:
+      - 8080:80
+    environment:
+      - APP_API_HOST=dc3-gateway
+      - APP_API_PORT=8000
+    container_name: iot-dc3-web
+    hostname: iot-dc3-web
+    volumes:
+      - nginx:/var/log/nginx
+    networks:
+      dc3demonet:
+        aliases:
+          - iot-dc3-web
+
+volumes:
+  nginx:
+
+networks:
+  dc3demonet:
+    driver: 'bridge'
+...
