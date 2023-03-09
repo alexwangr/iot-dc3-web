@@ -155,10 +155,7 @@ export default defineComponent({
 
         const changeActive = (tab) => {
             const query = route.query
-            router.push({ query: { ...query, active: tab.props.name } }).catch(() => {
-                // nothing to do
-            })
-
+            router.push({ query: { ...query, active: tab.props.name } })
             switch (tab.props.name) {
                 case 'profile':
                     break

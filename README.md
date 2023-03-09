@@ -8,9 +8,9 @@
 
 ## 一、准备
 
-- `nodejs` >= 12
-- `git`
-- `Web Storm` 或者 `Visual Studio Code`
+-   `nodejs` >= 12
+-   `git`
+-   `Web Storm` 或者 `Visual Studio Code`
 
 ### 配置国内 `npm` 源
 
@@ -46,9 +46,10 @@ yarn run serve:dev
 ```
 
 ---
+
 ## Visual Studio Code 配置
 
-> 可以参考setting.json
+> 可以参考 setting.json
 
 ```json
 {
@@ -77,7 +78,7 @@ yarn run serve:dev
         "**/node_modules": true,
         "**/bower_components": true,
         "**/target": true,
-        "**/logs": true,
+        "**/logs": true
     },
     "extensions.ignoreRecommendations": true,
     "markdown.preview.openMarkdownLinks": "inEditor",
@@ -90,9 +91,7 @@ yarn run serve:dev
     "terminal.integrated.profiles.windows": {
         "GitBash": {
             "path": "D:\\Program Files\\Git\\bin\\bash.exe",
-            "args": [
-                "-li"
-            ]
+            "args": ["-li"]
         }
     },
     "[json]": {

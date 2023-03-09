@@ -165,6 +165,7 @@ export default defineComponent({
                     }
                 })
             }
+            reactiveData.loading = false
         }
 
         const search = (params) => {
